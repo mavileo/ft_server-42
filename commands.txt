@@ -1,9 +1,0 @@
-docker-machine create Mavileo --driver="Virtualbox"
-docker run -it debian:buster
-docker-machine ip Mavileo
-docker-machine ls
-
-apt update && apt install -y nginx
-service nginx start
-
-
