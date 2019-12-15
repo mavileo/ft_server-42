@@ -62,7 +62,11 @@ RUN wget https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-engl
     tar xzf phpMyAdmin-4.9.0.1-english.tar.gz --strip-components=1 -C /var/www/html/phpmyadmin && \
     rm -rf phpMyAdmin-4.9.0.1-english.tar.gz && \
     mv /var/www/html/phpmyadmin/config.sample.inc.php /var/www/html/phpmyadmin/config.inc.php && \
-    sed -i "/YOU MUST FILL IN THIS FOR COOKIE AUTH/c\$cfg[\'blowfish_secret\'] = \'$2a$07$EJooQ7FWQIpYWJAMqd0mq.eRnrTTAkqpIwEv1InrJ8q0KMfAK0WLi\';" /var/www/html/phpmyadmin/config.inc.php && \
+    cp /srcs/config.inc.php /var/www/html/phpmyadmin/config.inc.php && \
+    service mysql start && \
+    mariadb < /var/www/html/phpmyadmin/sql/create_tables.sql && \
+    mariadb < /srcs/pma.sql && \
     chmod 660 /var/www/html/phpmyadmin/config.inc.php && \
     chown -R www-data:www-data /var/www/html/phpmyadmin && \
+    service php7.3-fpm start && \
     service nginx start
